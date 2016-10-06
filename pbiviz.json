@@ -1,0 +1,24 @@
+{
+  "visual": {
+    "name": "corrplotVisual3",
+    "displayName": "corrplotVisual3",
+    "guid": "PBI_CV_FC22EF20_6A7C_4F30_B29B_144CD82E5279",
+    "visualClassName": "Visual",
+    "version": "1.0.0",
+    "description": "",
+    "supportUrl": "",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "1.2.0",
+  "author": {
+    "name": "",
+    "email": ""
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [],
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": "dependencies.json"
+}
