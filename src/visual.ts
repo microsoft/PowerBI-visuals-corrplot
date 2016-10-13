@@ -25,12 +25,7 @@
  */
 module powerbi.extensibility.visual {
 
-    export interface ScriptResult {
-        source: string;
-        provider: string;
-    }
-
-    interface VisualSettings1 {
+    interface VisualSettingsCorrplotParams {
         show: boolean;
         mytype: string;
         method: string;
@@ -38,19 +33,19 @@ module powerbi.extensibility.visual {
         order: string;
     }
 
-    interface VisualSettings3 {
+    interface VisualSettingsLabelsParams {
         show: boolean;
         textSize: number;
         tl_col: string;
     }
-    interface VisualSettings4 {
+    interface VisualSettingsCoeffParams {
         show: boolean;
         addCoef_col: string;
         number_digits: string;
         textSize: number;
 
     }
-    interface VisualSettings5 {
+    interface VisualSettingsAdditionalParams {
         show: boolean;
         showWarnings: boolean;
     }
@@ -59,10 +54,10 @@ module powerbi.extensibility.visual {
         private imageDiv: HTMLDivElement;
         private imageElement: HTMLImageElement;
 
-        private settings1: VisualSettings1;
-        private settings3: VisualSettings3;
-        private settings4: VisualSettings4;
-        private settings5: VisualSettings5;
+        private settings_corrplot_params: VisualSettingsCorrplotParams;
+        private settings_labels_params: VisualSettingsLabelsParams;
+        private settings_coeff_params: VisualSettingsCoeffParams;
+        private settings_additional_params: VisualSettingsAdditionalParams;
 
 
         public constructor(options: VisualConstructorOptions) {
@@ -75,7 +70,7 @@ module powerbi.extensibility.visual {
 
             this.imageDiv.appendChild(this.imageElement);
 
-            this.settings1 = <VisualSettings1>{
+            this.settings_corrplot_params = <VisualSettingsCorrplotParams>{
                 show: false,
                 method: "circle",
                 mytype: "full",
@@ -83,18 +78,18 @@ module powerbi.extensibility.visual {
                 addrect: "None",
             };
 
-            this.settings3 = <VisualSettings3>{
+            this.settings_labels_params = <VisualSettingsLabelsParams>{
                 show: false,
                 textSize: 10,
                 tl_col: "red",
             };
-            this.settings4 = <VisualSettings4>{
+            this.settings_coeff_params = <VisualSettingsCoeffParams>{
                 show: false,
                 addCoef_col: "black",
                 number_digits: "1",
                 textSize: 8
             };
-            this.settings5 = <VisualSettings5>{
+            this.settings_additional_params = <VisualSettingsAdditionalParams>{
                 show: false,
                 showWarnings: false,
             };
@@ -109,32 +104,32 @@ module powerbi.extensibility.visual {
             if (!dataView || !dataView.metadata)
                 return;
 
-            this.settings1 = <VisualSettings1>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings1', 'show', false),
-                method: getValue<string>(dataView.metadata.objects, 'settings1', 'method', "circle"),
-                mytype: getValue<string>(dataView.metadata.objects, 'settings1', 'mytype', "full"),
-                addrect: getValue<string>(dataView.metadata.objects, 'settings1', 'addrect', "0"),
-                order: getValue<string>(dataView.metadata.objects, 'settings1', 'order', "original"),
+            this.settings_corrplot_params = <VisualSettingsCorrplotParams>{
+                show: getValue<boolean>(dataView.metadata.objects, 'settings_corrplot_params', 'show', false),
+                method: getValue<string>(dataView.metadata.objects, 'settings_corrplot_params', 'method', "circle"),
+                mytype: getValue<string>(dataView.metadata.objects, 'settings_corrplot_params', 'mytype', "full"),
+                addrect: getValue<string>(dataView.metadata.objects, 'settings_corrplot_params', 'addrect', "0"),
+                order: getValue<string>(dataView.metadata.objects, 'settings_corrplot_params', 'order', "original"),
 
 
             };
 
 
-            this.settings3 = <VisualSettings3>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings3', 'show', false),
-                textSize: getValueMinMax<number>(dataView.metadata.objects, 'settings3', 'textSize', 10, 5, 50),
-                tl_col: getValue<string>(dataView.metadata.objects, 'settings3', 'tl_col', "red"),
+            this.settings_labels_params = <VisualSettingsLabelsParams>{
+                show: getValue<boolean>(dataView.metadata.objects, 'settings_labels_params', 'show', false),
+                textSize: getValueMinMax<number>(dataView.metadata.objects, 'settings_labels_params', 'textSize', 10, 5, 50),
+                tl_col: getValue<string>(dataView.metadata.objects, 'settings_labels_params', 'tl_col', "red"),
             };
-            this.settings4 = <VisualSettings4>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings4', 'show', false),
-                addCoef_col: getValue<string>(dataView.metadata.objects, 'settings4', 'addCoef_col', "black"),
-                number_digits: getValue<string>(dataView.metadata.objects, 'settings4', 'number_digits', "1"),
-                textSize: getValue<number>(dataView.metadata.objects, 'settings4', 'textSize', 8)
+            this.settings_coeff_params = <VisualSettingsCoeffParams>{
+                show: getValue<boolean>(dataView.metadata.objects, 'settings_coeff_params', 'show', false),
+                addCoef_col: getValue<string>(dataView.metadata.objects, 'settings_coeff_params', 'addCoef_col', "black"),
+                number_digits: getValue<string>(dataView.metadata.objects, 'settings_coeff_params', 'number_digits', "1"),
+                textSize: getValue<number>(dataView.metadata.objects, 'settings_coeff_params', 'textSize', 8)
 
             };
-            this.settings5 = <VisualSettings5>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings5', 'show', false),
-                showWarnings: getValue<boolean>(dataView.metadata.objects, 'settings5', 'showWarnings', false)
+            this.settings_additional_params = <VisualSettingsAdditionalParams>{
+                show: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'show', false),
+                showWarnings: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'showWarnings', false)
             };
 
             let imageUrl: string = null;
@@ -161,16 +156,16 @@ module powerbi.extensibility.visual {
             let objectEnumeration = [];
 
             switch (objectName) {
-                case 'settings1':
-                    if (this.settings1.addrect == "0") {
+                case 'settings_corrplot_params':
+                    if (this.settings_corrplot_params.addrect == "0") {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                                show: this.settings1.show,
-                                method: this.settings1.method,
-                                addrect: this.settings1.addrect,
-                                mytype: this.settings1.mytype,
-                                order: this.settings1.order
+                                show: this.settings_corrplot_params.show,
+                                method: this.settings_corrplot_params.method,
+                                addrect: this.settings_corrplot_params.addrect,
+                                mytype: this.settings_corrplot_params.mytype,
+                                order: this.settings_corrplot_params.order
                             },
                             selector: null
                         });
@@ -179,9 +174,9 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                                show: this.settings1.show,
-                                method: this.settings1.method,
-                                addrect: this.settings1.addrect,
+                                show: this.settings_corrplot_params.show,
+                                method: this.settings_corrplot_params.method,
+                                addrect: this.settings_corrplot_params.addrect,
                             },
                             selector: null
                         });
@@ -189,35 +184,35 @@ module powerbi.extensibility.visual {
                     }
                     break;
 
-                case 'settings3':
+                case 'settings_labels_params':
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                            show: this.settings3.show,
-                            textSize: this.settings3.textSize,
-                            tl_col: this.settings3.tl_col
+                            show: this.settings_labels_params.show,
+                            textSize: this.settings_labels_params.textSize,
+                            tl_col: this.settings_labels_params.tl_col
                         },
                         selector: null
                     });
                     break;
-                case 'settings4':
+                case 'settings_coeff_params':
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                            show: this.settings4.show,
-                            number_digits: this.settings4.number_digits,
-                            addCoef_col: this.settings4.addCoef_col,
-                            textSize: this.settings4.textSize,
+                            show: this.settings_coeff_params.show,
+                            number_digits: this.settings_coeff_params.number_digits,
+                            addCoef_col: this.settings_coeff_params.addCoef_col,
+                            textSize: this.settings_coeff_params.textSize,
                         },
                         selector: null
                     });
                     break;
-                case 'settings5':
+                case 'settings_additional_params':
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                            show: this.settings5.show,
-                            showWarnings: this.settings5.showWarnings,
+                            show: this.settings_additional_params.show,
+                            showWarnings: this.settings_additional_params.showWarnings,
                         },
                         selector: null
                     });

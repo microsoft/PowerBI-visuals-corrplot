@@ -53,7 +53,7 @@
         }
       }
     },
-  "settings1":{
+  "settings_corrplot_params":{
         "displayName": "Correlation plot parameters",
         "properties": {
            "show": {
@@ -197,7 +197,7 @@
           }
         }
     },
-    "settings3":{
+    "settings_labels_params":{
         "displayName": "Labels",
         "description": "Control the appearance of labels",
         "properties": {
@@ -216,7 +216,7 @@
             }
         }
     },
-        "settings4":{
+        "settings_coeff_params":{
         "displayName": "Correlation coefficients",
          "description": "Control the appearance of correlation coefficients in the plot",
         "properties": {
@@ -255,7 +255,7 @@
             }
         }
     },
-        "settings5":{
+        "settings_additional_params":{
         "displayName": "Additional settings",
         "properties": {
           "show": {

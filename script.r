@@ -70,40 +70,38 @@ if(!exists("dataset"))
 
 
 
-if(exists("settings1_show") && settings1_show == FALSE)
-  rm(list= ls(pattern = "settings1_"))
-if(exists("settings2_show") && settings2_show == FALSE)
-  rm(list= ls(pattern = "settings2_"))
-if(exists("settings3_show") && settings3_show == FALSE)
-  rm(list= ls(pattern = "settings3_"))
-if(exists("settings4_show") && settings4_show == FALSE)
-  rm(list= ls(pattern = "settings4_"))
-if(exists("settings5_show") && settings5_show == FALSE)
-  rm(list= ls(pattern = "settings5_"))
+if(exists("settings_corrplot_params_show") && settings_corrplot_params_show == FALSE)
+  rm(list= ls(pattern = "settings_corrplot_params_"))
+if(exists("settings_labels_params_show") && settings_labels_params_show == FALSE)
+  rm(list= ls(pattern = "settings_labels_params_"))
+if(exists("settings_coeff_params_show") && settings_coeff_params_show == FALSE)
+  rm(list= ls(pattern = "settings_coeff_params_"))
+if(exists("settings_additional_params_show") && settings_additional_params_show == FALSE)
+  rm(list= ls(pattern = "settings_additional_params_"))
   
 ##PBI_PARAM: Should warnings text be displayed?
 #Type:logical, Default:TRUE, Range:NA, PossibleValues:NA, Remarks: NA
 showWarnings = FALSE
-if(exists("settings5_showWarnings"))
-  showWarnings = settings5_showWarnings
+if(exists("settings_additional_params_showWarnings"))
+  showWarnings = settings_additional_params_showWarnings
 
 ##PBI_PARAM: visualization method of items inside the table
 #Type:string, Default:'circle', Range:NA, PossibleValues:("circle", "square", "ellipse", "number", "shade", "color", "pie"), Remarks: NA
 method = 'circle' 
-if(exists("settings1_method"))
-  method = settings1_method
+if(exists("settings_corrplot_params_method"))
+  method = settings_corrplot_params_method
 
 ##PBI_PARAM: layout type, defines if we display full, lower triangular or upper triangular matrix.
 #Type:string, Default:'full', Range:NA, PossibleValues:("full", "upper", "lower"), Remarks: If rectangles are added, this option is switched to "full"
 type = 'full' 
-if(exists("settings1_mytype"))
-  type = settings1_mytype
+if(exists("settings_corrplot_params_mytype"))
+  type = settings_corrplot_params_mytype
 
 ##PBI_PARAM: order of raws is one of  "original","hclust"(hierarchical clustering order), "alphabet", "AOE"(angular order of the eigenvectors), "FPC"( first principal component order)
 #Type:string, Default:'original', Range:NA, PossibleValues:("original","hclust","alphabet", "AOE", "FPC"), Remarks: NA
 order='original' 
-if(exists("settings1_order"))
-  order = settings1_order
+if(exists("settings_corrplot_params_order"))
+  order = settings_corrplot_params_order
 
 
 ##PBI_PARAM: number of clusters to be drawn on top of correlation matrix as rectangles 
@@ -111,9 +109,9 @@ if(exists("settings1_order"))
 # addrect can also be integer or NULL (add nothing) or NaN (auto)
 #Type:unsigned integer, Default:NaN, Range:NA, PossibleValues:NA, Remarks: If equals NaN, will find number automatically 
 addrect= 0 
-if(exists("settings1_addrect"))
+if(exists("settings_corrplot_params_addrect"))
 {
-  addrect = as.numeric(settings1_addrect)
+  addrect = as.numeric(settings_corrplot_params_addrect)
   if(is.na(addrect) || addrect>1)
   {
     order='hclust'
@@ -136,39 +134,39 @@ libraryRequireInstall("corrplot")
 #Type:string, Default:'orange', Range:NA, PossibleValues:("red","black","green", "blue", "gray"), 
 #Remarks: see colors() function for full list of built-in color names
 tl.col = "red"
-if(exists("settings3_tl_col"))
-  tl.col = settings3_tl_col
+if(exists("settings_labels_params_tl_col"))
+  tl.col = settings_labels_params_tl_col
 
 ##PBI_PARAM: font size of text label
 #Type:numeric, Default:0.9, Range:(0,Inf], PossibleValues:NA, 
 #Remarks: NA
 tl.cex = 1
-if(exists("settings3_textSize"))
-  tl.cex = as.numeric(settings3_textSize)/10
+if(exists("settings_labels_params_textSize"))
+  tl.cex = as.numeric(settings_labels_params_textSize)/10
 
 ##PBI_PARAM: Color of coefficients added on the graph. If NULL (default), add no coefficients
 #Type:string, Default:NULL, Range:NA, PossibleValues:("white","black","green","gray",NULL), 
 #Remarks: NA
 addCoef.col = NA
-if(exists("settings4_addCoef_col"))
-  addCoef.col = (settings4_addCoef_col)
+if(exists("settings_coeff_params_addCoef_col"))
+  addCoef.col = (settings_coeff_params_addCoef_col)
 
 ##PBI_PARAM: size of coefficients added on the graph. 
 #Type:numeric, Default:0.6, Range:[0,1], PossibleValues:NA, 
 #Remarks: NA
 number.cex = 0.8
-if(exists("settings4_textSize"))
-  number.cex = as.numeric(settings4_textSize)/10
+if(exists("settings_coeff_params_textSize"))
+  number.cex = as.numeric(settings_coeff_params_textSize)/10
 
 
 ##PBI_PARAM: the number of decimal digits to be added into the plot
 #Type:numeric, Default:1, Range:[1,3], PossibleValues:NA, 
 #Remarks: NA
-number.digits = 1*as.numeric(exists("settings4_show"))
+number.digits = 1*as.numeric(exists("settings_coeff_params_show"))
 
-if(exists("settings4_number_digits"))
+if(exists("settings_coeff_params_number_digits"))
 {
-  number.digits = as.numeric(settings4_number_digits)
+  number.digits = as.numeric(settings_coeff_params_number_digits)
   if(is.na(number.digits))
   {
     addCoef.col = NULL
