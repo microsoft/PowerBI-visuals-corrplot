@@ -1,0 +1,274 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Values",
+      "description": "Numeric variables. At least 2 rows. At least 2 columns.",
+      "kind": "GroupingOrMeasure",
+      "name": "Values"
+    }
+  ],
+  "dataViewMappings": [
+    {
+       "conditions": [
+           { "Values": { "max": 1000 } }
+      ],
+      "scriptResult": {
+        "dataInput": {
+          "table": {
+            "rows": {
+              "for": {
+                "in": "Values"
+              },
+              "dataReductionAlgorithm": {
+                "top": { }
+              }
+            }
+          }
+        },
+        "script": {
+          "scriptProviderDefault": "R",
+          "scriptOutputType": "png",
+          "source": {
+            "objectName": "rcv_script",
+            "propertyName": "source"
+          },
+          "provider": {
+            "objectName": "rcv_script",
+            "propertyName": "provider"
+          }
+        }
+      }
+    }
+  ],
+  "objects": {
+    "rcv_script": {
+      "properties": {
+        "provider": {
+          "type": { "text": true }
+        },
+        "source": {
+          "type": {
+            "scripting": { "source": true }
+          }
+        }
+      }
+    },
+  "settings_corrplot_params":{
+        "displayName": "Correlation plot parameters",
+        "properties": {
+           "show": {
+                "type": {"bool": true}
+            },
+           "mytype":{
+            "displayName": "Matrix shape",
+            "description": "Full matrix, lower triangular or upper triangular matrix",
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "full",
+                    "value": "full"
+                  },
+                  {
+                    "displayName": "upper",
+                    "value": "upper"
+                  },
+                   {
+                    "displayName": "lower",
+                    "value": "lower"
+                  }
+                ]
+              }
+          },
+          "method": {
+              "displayName": " Element shape",
+              "description": "The shape of single element in the correlation matrix",
+              "type": {
+                "enumeration": [
+                  {
+                    "displayName": "circle",
+                    "value": "circle"
+                  },
+                  {
+                    "displayName": "square",
+                    "value": "square"
+                  },
+                   {
+                    "displayName": "ellipse",
+                    "value": "ellipse"
+                  },
+                  {
+                    "displayName": "number",
+                    "value": "number"
+                  },
+                  {
+                    "displayName": "shade",
+                    "value": "shade"
+                  },
+                  {
+                    "displayName": "color",
+                    "value": "color"
+                  },
+                  {
+                    "displayName": "pie",
+                    "value": "pie"
+                  }
+                ]
+              }
+            },
+        "addrect": {
+              "displayName": "Draw clusters",
+              "description": "Select number of clusters to detect. Clusters are shown as black square frames on matrix. ",
+              "type": {
+                "enumeration": [
+                  {
+                    "displayName": "None",
+                    "value": "0"
+                  },
+                  {
+                    "displayName": "Auto",
+                    "value": "Auto"
+                  },
+                   {
+                    "displayName": "2",
+                    "value": "2"
+                  },
+                  {
+                    "displayName": "3",
+                    "value": "3"
+                  },
+                   {
+                    "displayName": "4",
+                    "value": "4"
+                  },
+                  {
+                    "displayName": "5",
+                    "value": "5"
+                  },
+                   {
+                    "displayName": "6",
+                    "value": "6"
+                  },
+                  {
+                    "displayName": "7",
+                    "value": "7"
+                  },
+                   {
+                    "displayName": "8",
+                    "value": "8"
+                  },
+                  {
+                    "displayName": "9",
+                    "value": "9"
+                  },
+                   {
+                    "displayName": "10",
+                    "value": "10"
+                  }
+                ]
+              }
+            },
+            "order":{
+            "displayName": "Order",
+            "description": "The ordering method of the correlation matrix: `AOE` for the angular order of the eigenvectors, `FPC` for the first principal component order, `hclust` for the hierarchical clustering order",
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "original",
+                    "value": "original"
+                  },
+                  {
+                    "displayName": "hclust",
+                    "value": "hclust"
+                  },
+                   {
+                    "displayName": "alphabet",
+                    "value": "alphabet"
+                  },
+                   {
+                    "displayName": "AOE",
+                    "value": "AOE"
+                  },
+                   {
+                    "displayName": "FPC",
+                    "value": "FPC"
+                  }
+                ]
+              }
+          }
+        }
+    },
+    "settings_labels_params":{
+        "displayName": "Labels",
+        "description": "Control the appearance of labels",
+        "properties": {
+          "show": {
+                "type": {"bool": true}
+            },
+            "textSize":{
+            "displayName": "Font size",
+            "type": {
+              "numeric": true
+            }
+            },
+            "tl_col": {
+              "displayName": "Color",
+              "type": { "fill": { "solid": { "color": true }}}
+            }
+        }
+    },
+        "settings_coeff_params":{
+        "displayName": "Correlation coefficients",
+         "description": "Control the appearance of correlation coefficients in the plot",
+        "properties": {
+          "show": {
+                "type": {"bool": true}
+            },
+            "addCoef_col": {
+              "displayName": "Color",
+              "type": { "fill": { "solid": { "color": true }}}
+            },
+            "number_digits": {
+              "displayName": "# digits",
+              "description": "Number of digits after decimal point",
+              "type": {
+                "enumeration": [
+                  {
+                    "displayName": "1",
+                    "value": "1"
+                  },
+                   {
+                    "displayName": "2",
+                    "value": "2"
+                  },
+                  {
+                    "displayName": "3",
+                    "value": "3"
+                  }
+                ]
+              }
+            },
+            "textSize":{
+            "displayName": "Font size",
+            "type": {
+              "numeric": true
+              }
+            }
+        }
+    },
+        "settings_additional_params":{
+        "displayName": "Additional settings",
+        "properties": {
+          "show": {
+                "type": {"bool": true}
+            },
+            "showWarnings":{
+            "displayName": "Show warnings",
+            "type": {
+              "bool": true
+            }
+          }      
+        }
+    }
+  },
+  "suppressDefaultTitle": true
+}

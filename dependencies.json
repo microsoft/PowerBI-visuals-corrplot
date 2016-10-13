@@ -1,0 +1,9 @@
+{
+  "cranPackages": [
+    {
+      "name": "corrplot",
+      "displayName": "corrplot: Visualization of a Correlation Matrix",
+      "url": "https://cran.r-project.org/web/packages/corrplot/index.html"
+    }
+  ]
+}
