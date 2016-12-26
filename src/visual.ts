@@ -75,7 +75,7 @@ module powerbi.extensibility.visual {
                 method: "circle",
                 mytype: "full",
                 order: "original",
-                addrect: "None",
+                addrect: "none",
             };
 
             this.settings_labels_params = <VisualSettingsLabelsParams>{
