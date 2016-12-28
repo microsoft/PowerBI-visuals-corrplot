@@ -121,12 +121,12 @@
               "type": {
                 "enumeration": [
                   {
-                    "displayName": "None",
+                    "displayName": "none",
                     "value": "0"
                   },
                   {
-                    "displayName": "Auto",
-                    "value": "Auto"
+                    "displayName": "auto",
+                    "value": "auto"
                   },
                    {
                     "displayName": "2",

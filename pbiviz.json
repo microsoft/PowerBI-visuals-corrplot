@@ -4,7 +4,7 @@
     "displayName": "Correlation plot",
     "guid": "PBI_CV_FC22EF20_6A7C_4F30_B29B_144CD82E5279",
     "visualClassName": "Visual",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "<span>Correlation plots can be used to quickly find insights. It is very useful to highlight the most correlated variables in a data table. In this visual, correlation coefficients is colored according to the value. Correlation matrix can be also reordered according to the degree of association between variables. Download this sample to see how a correlation plot can inform marketing strategies in different market segments.<br/><br/><span style='font-style:italic'>Service prerequisites:</span> R-powered custom visual is used in service seamlessly<br/><br /><span style='font-style:italic'>Desktop prerequisites:</span> To run R scripts in Power BI Desktop, you must separately install R on your local computer.<br />You can download and install R for free from the <a href='https://mran.revolutionanalytics.com/download/'>Revolution Open download page</a> or the <a href='https://cran.r-project.org/bin/windows/base/'>CRAN Repository</a><br /><br /> <span style='font-style:italic'> R package dependencies(auto-installed): </span> corrplot <br /></span>",
     "supportUrl": "http://community.powerbi.com/",
     "gitHubUrl": "https://github.com/microsoft/PowerBI-visuals-corrplot"

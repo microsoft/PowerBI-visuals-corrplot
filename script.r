@@ -33,12 +33,58 @@
 #
 # R VERSION TESTED: 3.2.2
 # 
-# AUTHOR: B. Efraty (boefraty@microsoft.com)
+# AUTHOR: pbicvsupport@microsoft.com
 #
 # REFERENCES: https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
 
 
-#save(list = ls(all.names = TRUE), file='C:/Users/boefraty/projects/PBI/R/R_visuals_gallery/tempData.Rda')
+#save(list = ls(all.names = TRUE), file='C:/Users/boefraty/projects/PBI/R/tempData.Rda')
+#load(file='C:/Users/boefraty/projects/PBI/R/tempData.Rda')
+
+cutStr2Show = function(strText, strCex = 0.8, abbrTo = 100, isH = TRUE, maxChar = 0, partAvailable = 1)
+{
+  # strText = text to modify 
+  # strCex = font size 
+  # abbrTo = very long string will be abbreviated to "abbrTo" characters
+  # isH = "is horizontal" ?
+  # maxChar = text smaller than maxChar is replaced by NULL
+  # partAvailable = which portion of window is available for text, in [0,1]
+  
+  if(is.null(strText))
+    return (NULL)
+  
+  SCL = 0.094*strCex
+  pardin = par()$din
+  gStand = partAvailable*(isH*pardin[1]+(1-isH)*pardin[2]) /SCL
+  
+  # if very very long abbreviate
+  if(nchar(strText)>abbrTo && nchar(strText)> 1)
+    strText = abbreviate(strText, abbrTo)
+  
+  # if looooooong convert to lo...
+  if(nchar(strText)>round(gStand) && nchar(strText)> 1)
+    strText = paste(substring(strText,1,floor(gStand)),"...",sep="")
+  
+  # if shorter than maxChar remove 
+  if(gStand<=maxChar)
+    strText = NULL
+  
+  return(strText) 
+}
+
+
+verifyIfToShowCoeff = function(numR, numDigs, coeffCex, partAvailble = 0.75)
+{
+  myThre = 0.1
+  lenPerD = partAvailble*min(par()$din)/(numR*(numDigs+1)*coeffCex)
+  return(lenPerD>myThre)
+}
+verifyIfToShowColorScale = function(numR, partAvailble = 0.05)
+{
+  myThre = 0.02
+  lenPerD = partAvailble*par()$din[1]/(numR)
+  return(lenPerD>myThre)
+}
 
 getValueNumericMinMaxDefault = function(val,minVal = -Inf,maxVal = Inf,defVal = NA)
 {
@@ -67,8 +113,6 @@ if(!exists("dataset"))
 }
 
 ############ User Parameters #########
-
-
 
 if(exists("settings_corrplot_params_show") && settings_corrplot_params_show == FALSE)
   rm(list= ls(pattern = "settings_corrplot_params_"))
@@ -181,6 +225,10 @@ if(number.digits == 0)
 #Type:vector, Default:c(1.0, 0.75, 0.75, 0.6), Range:NA, PossibleValues:NA, 
 #Remarks: NA
 defMar = c(0.5, 0.25, 0.25, 0.1) + 0.5
+
+MAX_CHAR_TL = 50 # maximum characters for text label
+MAX_PART_TL = 0.5 # maximum space for text label
+clpos = "r" #location of color scale
 ###############Internal functions definitions#################
 
 #by default will group variables in log of number of columns clusters
@@ -196,11 +244,16 @@ pbiWarning <- NULL
 #PBI_COMMENT: verify correctness of dataset
 useColumns <- sapply(dataset,correctColumn)
 if(showWarnings && sum(useColumns) < ncol(dataset))
-  pbiWarning <- "Some columns are not numeric, or constant"
+  pbiWarning <- "Some columns are not numeric, or constant."
 
 dataset <- as.data.frame(dataset[,useColumns])
 nc <- ncol(dataset)
 nr <- nrow(dataset)
+
+nnn = names(dataset)
+nnn1 = sapply(nnn,cutStr2Show, strCex = tl.cex, abbrTo = MAX_CHAR_TL, isH = (par()$din[1]<par()$din[2]), maxChar = 2, partAvailable = MAX_PART_TL)
+
+names(dataset) = nnn1
 
 #PBI_COMMENT: re-define addrect to avoid errors in input
 if(!is.null(addrect))
@@ -214,18 +267,37 @@ if(!is.null(addrect))
 }
 
 ##############Main Visualization script###########
-
+if(!is.null(addCoef.col))
+  if(!verifyIfToShowCoeff(nc, number.digits, number.cex, partAvailble = 0.75))
+  {
+    addCoef.col = NULL
+    pbiWarning<-paste(pbiWarning, "Not enough space for coefficients.", sep=" ")
+  }
+if(!verifyIfToShowColorScale(nc))
+  clpos = "n"
 #PBI_COMMENT: Create visual
 if(nc > 1 && nr > 1){
   #PBI_COMMENT: compute correlation matrix, allow for missing values
   M <- cor(dataset, use="pairwise.complete.obs")
+  par(xpd = TRUE)
+  
+  if(type == "upper")
+  {
+    defMar = c(0.25, 0.25, 3.5, 0.1) + 0.5
+    tl.cex = tl.cex*0.95
+  }
   corrplot(M, method=method, order=order, type=type, addrect=addrect,
            mar = defMar, tl.col = tl.col, tl.cex=tl.cex,
-           number.digits=number.digits, number.cex=number.cex, addCoef.col=addCoef.col)
+           number.digits=number.digits, number.cex=number.cex, addCoef.col=addCoef.col, 
+           cl.pos =clpos)
 }else{ #empty correlation plot
   plot.new()
-  pbiWarning<-paste(pbiWarning, "Not enough input dimensions", sep="\n")
+  pbiWarning<-paste(pbiWarning, "Not enough input dimensions.", sep=" ")
 }
 #add warning as subtitle
 if(showWarnings)
+  {
+  pbiWarning <- cutStr2Show(pbiWarning,strCex = 0.8, abbrTo = 100, isH = TRUE)
   title(main = NULL, sub = pbiWarning, outer = FALSE, col.sub = "gray50", cex.sub = 0.75)
+}
+
