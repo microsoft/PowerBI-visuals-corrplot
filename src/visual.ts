@@ -157,7 +157,7 @@ module powerbi.extensibility.visual {
 
             switch (objectName) {
                 case 'settings_corrplot_params':
-                    if (this.settings_corrplot_params.addrect == "0") {
+                    if (this.settings_corrplot_params.addrect === "0") {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
